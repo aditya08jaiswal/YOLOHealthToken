@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -31,25 +32,25 @@ import javax.net.ssl.HttpsURLConnection;
 public class MainActivity extends AppCompatActivity {
 
     private static final String KIOSKID_KEY = "kioskid";
+    public String enteredKioskId;
 
     TextView getTokenNumber;
     Bundle jsonBundle;
 
     TextView tvIsConnected;
     EditText etKioskId;
-    TextView tvResult;
     Button btnRun;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         getTokenNumber = findViewById(R.id.tokenNumber);
 
         tvIsConnected = findViewById(R.id.tvIsConnected);
         etKioskId = findViewById(R.id.et_KioskId);
-        tvResult = findViewById(R.id.tvResult);
         btnRun = findViewById(R.id.btnRun);
 
         checkNetworkConnection();
@@ -57,11 +58,9 @@ public class MainActivity extends AppCompatActivity {
         btnRun.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 send(v);
             }
         });
-
     }
 
     public boolean checkNetworkConnection() {
@@ -119,13 +118,6 @@ public class MainActivity extends AppCompatActivity {
         // get JSON response
         jsonResponse = getRequestContent(httpURLConnection, responseCode, jsonResponse);
 
-        jsonBundle = new Bundle();
-        jsonBundle.putString("JSONString", jsonResponse);
-
-        Intent tokenActivityIntent = new Intent(MainActivity.this, TokenActivity.class);
-        tokenActivityIntent.putExtras(jsonBundle);
-        startActivity(tokenActivityIntent);
-
         return jsonResponse;
     }
 
@@ -150,20 +142,32 @@ public class MainActivity extends AppCompatActivity {
         // onPostExecute displays the results of the AsyncTask.
         @Override
         protected void onPostExecute(String result) {
-//            tvResult.setText(result);
+
+            jsonBundle = new Bundle();
+            jsonBundle.putString("JSONString", result);
+            jsonBundle.putString("EnteredKioskID", etKioskId.getText().toString());
+
+            Log.d("ON POST EXECUTE ", "KioskID : " + etKioskId.getText().toString() + "RESULT : " + result);
+
+            Intent tokenActivityIntent = new Intent(MainActivity.this, TokenActivity.class);
+            tokenActivityIntent.putExtras(jsonBundle);
+            startActivity(tokenActivityIntent);
+
         }
     }
 
     public void send(View view) {
-        Toast.makeText(this, "Clicked", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Current Token Number", Toast.LENGTH_SHORT).show();
         // perform HTTP POST request
         if(checkNetworkConnection()) {
+
+            //Save Kiosk ID for periodic calling of API in TokenActivity
+            enteredKioskId = etKioskId.getText().toString();
             new HTTPAsyncTask().execute("https://healthatm.in/api/Utils/get/current/token/?kioskid=" + etKioskId.getText().toString());
         }
         else {
             Toast.makeText(this, "Not Connected!", Toast.LENGTH_SHORT).show();
         }
-
     }
 
     private JSONObject buildJsonObject() throws JSONException {
