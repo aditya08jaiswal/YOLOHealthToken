@@ -65,7 +65,7 @@ public class TokenActivity extends AppCompatActivity {
             public void run(){
                 while(!STOP){
                     try {
-                        Thread.sleep(10000);  //10000ms = 10 sec
+                        Thread.sleep(30000);  //30000ms = 30 sec
                         runOnUiThread(new Runnable() {
 
                             @Override
@@ -195,6 +195,7 @@ public class TokenActivity extends AppCompatActivity {
 
         return  jsonResponse;
     }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -203,6 +204,9 @@ public class TokenActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+
+        //set flag to 0 to start checking for connection again
+        MainActivity.stopFlagOnActivityChange = 0;
 
         STOP = true;
     }

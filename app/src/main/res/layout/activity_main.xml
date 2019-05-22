@@ -1,42 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="100dp"
-    android:gravity="center"
-    android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/tvIsConnected"
+    <ImageView
+        android:id="@+id/ivIsConnected"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="#FF0000"
-        android:textColor="#FFF"
-        android:textSize="18dp"
-        android:padding="5dp"
-        android:layout_marginBottom="5dp"
-        android:text="is connected? " />
+        android:src="@drawable/ic_wifi_red_48dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="100dp" />
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/tilTwitter"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+    <LinearLayout
+        android:id="@+id/linearlayoutActivityMain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/et_KioskId"
-            android:layout_width="fill_parent"
+        <ImageView
+            android:id="@+id/yoloActivityLogo"
+            android:src="@drawable/ic_yolohealth_logo"
+            android:contentDescription="YOLO Health Logo"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="KioskID"/>
-    </android.support.design.widget.TextInputLayout>
+            android:layout_margin="30dp"/>
 
-    <Button
-        android:id="@+id/btnRun"
-        android:text="Run"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"/>
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/tilKioskId"
+            android:layout_margin="30dp"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content">
 
-</LinearLayout>
+            <EditText
+                android:id="@+id/et_KioskId"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="KioskID"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:id="@+id/btnRun"
+            android:text="Run"
+            android:layout_margin="30dp"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

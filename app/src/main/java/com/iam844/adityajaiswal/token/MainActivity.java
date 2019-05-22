@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,7 +38,9 @@ public class MainActivity extends AppCompatActivity {
     TextView getTokenNumber;
     Bundle jsonBundle;
 
-    TextView tvIsConnected;
+    Thread updateConnectionThread;
+    public static int stopFlagOnActivityChange = 0;
+    ImageView ivIsConnected;
     EditText etKioskId;
     Button btnRun;
 
@@ -49,11 +52,9 @@ public class MainActivity extends AppCompatActivity {
 
         getTokenNumber = findViewById(R.id.tokenNumber);
 
-        tvIsConnected = findViewById(R.id.tvIsConnected);
+        ivIsConnected = findViewById(R.id.ivIsConnected);
         etKioskId = findViewById(R.id.et_KioskId);
         btnRun = findViewById(R.id.btnRun);
-
-        checkNetworkConnection();
 
         btnRun.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,23 +65,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public boolean checkNetworkConnection() {
-        ConnectivityManager connMgr = (ConnectivityManager)
-                getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         boolean isConnected = false;
         if (networkInfo != null && (isConnected = networkInfo.isConnected())) {
             // show "Connected" & type of network "WIFI or MOBILE"
-            tvIsConnected.setText("Connected "+networkInfo.getTypeName());
-            // change background color to red
-            tvIsConnected.setBackgroundColor(0xFF7CCC26);
-
+            if (networkInfo.getTypeName().equalsIgnoreCase("wifi")) {
+                ivIsConnected.setImageResource(R.drawable.ic_wifi_green_48dp);
+            }
+            else {
+                ivIsConnected.setImageResource(R.drawable.ic_mobile_green_48dp);
+            }
 
         } else {
             // show "Not Connected"
-            tvIsConnected.setText("Not Connected");
-            // change background color to green
-            tvIsConnected.setBackgroundColor(0xFFFF0000);
+            ivIsConnected.setImageResource(R.drawable.ic_wifi_red_48dp);
         }
 
         return isConnected;
@@ -153,6 +153,8 @@ public class MainActivity extends AppCompatActivity {
             tokenActivityIntent.putExtras(jsonBundle);
             startActivity(tokenActivityIntent);
 
+            //Stop updateConnection thread
+            stopFlagOnActivityChange = 1;
         }
     }
 
@@ -209,4 +211,37 @@ public class MainActivity extends AppCompatActivity {
         return  jsonResponse;
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        updateConnectionThread = new Thread() {
+            @Override
+            public void run(){
+                while(stopFlagOnActivityChange == 0){
+                    try {
+                        Thread.sleep(1000);  //1000ms = 1 sec
+                        runOnUiThread(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                checkNetworkConnection();
+                            }
+                        });
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+
+        updateConnectionThread.start();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //Stop updateConnection thread
+        stopFlagOnActivityChange = 1;
+    }
 }
