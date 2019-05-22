@@ -22,7 +22,7 @@
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
         android:gravity="center"
-        android:hint="88"
+        android:hint="00"
         android:includeFontPadding="false"
         android:textColor="@android:color/black"
         android:textSize="530sp"

@@ -45,8 +45,11 @@
         <Button
             android:id="@+id/btnRun"
             android:text="Run"
+            android:background="@color/yoloLogo"
+            android:textColor="@android:color/white"
             android:layout_margin="30dp"
             android:layout_width="100dp"
+            android:textSize="20sp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"/>
 
