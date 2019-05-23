@@ -21,6 +21,8 @@ import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import static com.iam844.adityajaiswal.YOLOHealthToken.ServerConstants.API_URL;
+
 public class TokenActivity extends AppCompatActivity {
 
     private static final String KIOSKID_KEY = "kioskid";
@@ -70,7 +72,7 @@ public class TokenActivity extends AppCompatActivity {
 
                             @Override
                             public void run() {
-                                new HTTPAsyncTask().execute("https://healthatm.in/api/Utils/get/current/token/?kioskid=" + EnteredKioskID);
+                                new HTTPAsyncTask().execute(API_URL + "/Utils/get/current/token/?kioskid=" + EnteredKioskID);
                             }
                         });
                     } catch (InterruptedException e) {
