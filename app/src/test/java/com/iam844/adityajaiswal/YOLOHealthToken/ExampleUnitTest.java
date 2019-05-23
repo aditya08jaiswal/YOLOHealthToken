@@ -1,4 +1,4 @@
-package com.iam844.adityajaiswal.token;
+package com.iam844.adityajaiswal.YOLOHealthToken;
 
 import org.junit.Test;
 

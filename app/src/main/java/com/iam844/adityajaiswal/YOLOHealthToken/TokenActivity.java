@@ -1,4 +1,4 @@
-package com.iam844.adityajaiswal.token;
+package com.iam844.adityajaiswal.YOLOHealthToken;
 
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;

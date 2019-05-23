@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.iam844.adityajaiswal.token">
+    package="com.iam844.adityajaiswal.YOLOHealthToken">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -13,11 +13,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".TokenActivity"
+        <activity android:name="com.iam844.adityajaiswal.YOLOHealthToken.TokenActivity"
             android:configChanges="orientation"
             android:screenOrientation="landscape"/>
 
-        <activity android:name=".MainActivity"
+        <activity android:name="com.iam844.adityajaiswal.YOLOHealthToken.MainActivity"
             android:configChanges="orientation"
             android:screenOrientation="landscape">
             <intent-filter>

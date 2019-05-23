@@ -1,4 +1,4 @@
-package com.iam844.adityajaiswal.token;
+package com.iam844.adityajaiswal.YOLOHealthToken;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

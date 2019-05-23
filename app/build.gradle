@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.iam844.adityajaiswal.token"
+        applicationId "com.iam844.adityajaiswal.YOLOHealthToken"
         minSdkVersion 23
         targetSdkVersion 28
         versionCode 1
