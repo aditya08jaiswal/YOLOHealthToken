@@ -48,7 +48,7 @@ public class TokenActivity extends AppCompatActivity {
         String JSONString = bundle.getString("JSONString");
         EnteredKioskID = bundle.getString("EnteredKioskID");
 
-        Log.d("TOKEN ACTIVITY ENTERED ", "KioskID : " + EnteredKioskID);
+        Log.d("TOKEN ACTIVITY ENTERED ", " KioskID : " + EnteredKioskID);
 
         try{
             JSONObject jsonObject =(new JSONObject(JSONString)).getJSONObject("body");
@@ -59,7 +59,7 @@ public class TokenActivity extends AppCompatActivity {
 
         }catch (Exception e) {e.printStackTrace();}
 
-
+        // Call API in ever 30 sec to check token update
         updateTokenThread = new Thread() {
             @Override
             public void run(){
@@ -206,7 +206,7 @@ public class TokenActivity extends AppCompatActivity {
         super.onBackPressed();
 
         //set flag to 0 to start checking for connection again
-        MainActivity.stopFlagOnActivityChange = 0;
+        MainActivity.STOP_CONNECTION_UPDATE_ON_ACTIVITY_CHANGE = 0;
 
         STOP = true;
     }

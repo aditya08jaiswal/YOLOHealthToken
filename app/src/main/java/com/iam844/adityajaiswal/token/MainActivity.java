@@ -33,13 +33,14 @@ import javax.net.ssl.HttpsURLConnection;
 public class MainActivity extends AppCompatActivity {
 
     private static final String KIOSKID_KEY = "kioskid";
+    public static int STOP_CONNECTION_UPDATE_ON_ACTIVITY_CHANGE = 0;
+
     public String enteredKioskId;
 
     TextView getTokenNumber;
     Bundle jsonBundle;
 
     Thread updateConnectionThread;
-    public static int stopFlagOnActivityChange = 0;
     ImageView ivIsConnected;
     EditText etKioskId;
     Button btnRun;
@@ -154,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(tokenActivityIntent);
 
             //Stop updateConnection thread
-            stopFlagOnActivityChange = 1;
+            STOP_CONNECTION_UPDATE_ON_ACTIVITY_CHANGE = 1;
         }
     }
 
@@ -218,7 +219,7 @@ public class MainActivity extends AppCompatActivity {
         updateConnectionThread = new Thread() {
             @Override
             public void run(){
-                while(stopFlagOnActivityChange == 0){
+                while(STOP_CONNECTION_UPDATE_ON_ACTIVITY_CHANGE == 0){
                     try {
                         Thread.sleep(1000);  //1000ms = 1 sec
                         runOnUiThread(new Runnable() {
@@ -242,6 +243,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         //Stop updateConnection thread
-        stopFlagOnActivityChange = 1;
+        STOP_CONNECTION_UPDATE_ON_ACTIVITY_CHANGE = 1;
     }
 }
